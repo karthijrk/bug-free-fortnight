@@ -18,6 +18,9 @@ parse_opts() {
 			--existential-angst)
 				existential_angst=true
 				;;
+      --remove)
+        remove=true
+        ;;
 		esac
 	done
 

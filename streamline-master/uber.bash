@@ -15,6 +15,8 @@ _main() {
 	local interactive
 	local stale_orca
 	local existential_angst
+	local remove
+
 	parse_opts "$@"
 
 	local image_id
@@ -23,7 +25,7 @@ _main() {
 	local container_id
 	container_id=$(create_container "${image_id}")
 
-	trap "cleanup ${container_id}" EXIT
+	trap "cleanup ${container_id} ${remove}" EXIT
 
 	set_ccache_max_size
 
@@ -48,11 +50,17 @@ cleanup() {
 	local container_id
 	readonly container_id=$1
 
+	local remove
+	readonly remove=$2
+
 	local workspace
 	workspace=$(workspace)
 
 	docker cp "${container_id}":/build/gpdb/src/test/regress/regression.diffs "${workspace}"/gpdb/src/test/regress || :
-	#docker rm --force "${container_id}"
+
+	if [[ "$remove" = true ]]; then
+	  docker rm --force "${container_id}"
+	fi
 }
 
 create_container() {
