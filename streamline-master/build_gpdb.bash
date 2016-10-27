@@ -26,7 +26,7 @@ build_gpdb() {
 	env \
 		CXX='ccache c++' \
 		CC='ccache cc' \
-		./configure --enable-debug --enable-orca --enable-mapreduce --with-perl --with-libxml --with-python --enable-gpfdist --prefix="${prefix}" --with-includes="${prefix}"/include --with-libs="${prefix}"/lib
+		./configure --enable-orca --enable-mapreduce --with-perl --with-libxml --with-python --enable-gpfdist --prefix="${prefix}" --with-includes="${prefix}"/include --with-libs="${prefix}"/lib
 	make CXX='ccache c++' -j"$(nproc)" install
 
 }
