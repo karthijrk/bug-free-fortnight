@@ -40,43 +40,43 @@ _main() {
 		return 0
 	fi
 
-(	if [[ "$optimizer" = true ]]; then
+	if [[ "$optimizer" = true ]]; then
 		run_in_container "${container_id}" /workspace/"${relpath}"/icg.bash
 	else
-(		run_in_container "${container_id}" /workspace/"${relpath}"/icg.bash --no-optimizer
+		run_in_container "${container_id}" /workspace/"${relpath}"/icg.bash --no-optimizer
 	fi
 }
-(
+
 make_sync_tools() {
 	local container_id
-(	readonly container_id=$1
+	readonly container_id=$1
 	local relpath
 	readonly relpath=$2
-(
+
 	local -r path=/workspace/${relpath}/make_sync_tools.bash
 
-	(run_in_container "${container_id}" "${path}"
-}
-
-b(uild_gpdb4() {
-	local container_id
-	readonly container_id=$1
-(	local relpath
-	readonly relpath=$2
-
-(	local -r path=/workspace/${relpath}/build_gpdb4.bash
 	run_in_container "${container_id}" "${path}"
 }
-(
+
+build_gpdb4() {
+	local container_id
+	readonly container_id=$1
+	local relpath
+	readonly relpath=$2
+
+	local -r path=/workspace/${relpath}/build_gpdb4.bash
+	run_in_container "${container_id}" "${path}"
+}
+
 cleanup() {
 	local container_id
-	reado(nly container_id=$1
+	readonly container_id=$1
 
 	local workspace
-	work(space=$(workspace)
+	workspace=$(workspace)
 
-	d(((ocker cp "${container_id}":/build/gpdb4/src/test/regress/regression.diffs "${workspace}"/gpdb4/src/test/regress || :
-	#docker rm --force "${container_id}"
+	docker cp "${container_id}":/build/gpdb4/src/test/regress/regression.diffs "${workspace}"/gpdb4/src/test/regress || :
+	docker rm --force "${container_id}"
 }
 
 create_container() {
